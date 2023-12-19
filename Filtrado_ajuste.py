@@ -10,7 +10,7 @@ import imutils
 import scipy.cluster.hierarchy as hcluster
 
 
-def Identificacion(query_img, train_img,features,cluster, margen):
+def Identificacion(query_img, train_img,features,thresh, margen):
 
     # Initialize lists
     list_kp1 = []
@@ -59,13 +59,8 @@ def Identificacion(query_img, train_img,features,cluster, margen):
         # Append to each list
         list_kp1.append((x1, y1))
         list_kp2.append((x2, y2))
-
-    kmeans = KMeans(n_clusters=cluster)
-    kmeans.fit(list_kp1)
-    center = kmeans.cluster_centers_
     
     # clustering
-    thresh = 15
     clusters = hcluster.fclusterdata(list_kp1, thresh, criterion="distance")
     
     index = 0
@@ -127,10 +122,10 @@ def Identificacion(query_img, train_img,features,cluster, margen):
     point_radius = 2
 
     # Loop through the points and draw them on the image
-    for point in puntos_array:
-        coordinates = (int(point[0]), int(point[1]))
-        cv2.circle(query_img, coordinates, point_radius,
-                    point_color, -1)  # -1 fills the circle
+    # for point in puntos_array:
+    #     coordinates = (int(point[0]), int(point[1]))
+    #     cv2.circle(query_img, coordinates, point_radius,
+    #                 point_color, -1)  # -1 fills the circle
 
 
     # Recorta la imagen usando las coordenadas del bounding box
@@ -145,7 +140,7 @@ def Identificacion(query_img, train_img,features,cluster, margen):
 
 if __name__ == "__main__":
 
-    img = cv2.imread('../data/Cars264.png')
+    img = cv2.imread('../data/Cars101.png')
     # Añadir más placas de ejemplo y determinar el cluster que más coincida
     train = cv2.imread('../data/matricula2.png')
     col,fil,deep=img.shape
@@ -153,9 +148,9 @@ if __name__ == "__main__":
     # Especifica el nuevo tamaño (ancho, alto)
     nuevo_tamano = (round(64*ratio*3), 64*3)
     # Redimensiona la imagen
-    img = cv2.resize(img, nuevo_tamano)
+    #img = cv2.resize(img, nuevo_tamano)
 
-    img_cropped = Identificacion(img, train,features=200,cluster=10,margen=70)
+    img_cropped = Identificacion(img, train,features=100,thresh=20,margen=70)
     # Show the final image
     # cv2.cvtColor(img, cv2.COLOR_RGB2LAB)
     # B, G, R = cv2.split(img)
