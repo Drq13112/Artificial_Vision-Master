@@ -72,8 +72,7 @@ def Identificacion(query_img, train_img,features,thresh, margen):
         etiquetas.append(clusters[index])
         index=index+1
     
-    
-    
+
     # Separar clusters
     clusters_separados={}
     for tupla in list_kp1_clus:
@@ -93,54 +92,57 @@ def Identificacion(query_img, train_img,features,thresh, margen):
     # Encuentra el índice del clúster con más puntos
     indice_cluster_mayor = np.argmax(conteo_puntos_por_cluster)
     puntos_cluster_mayor = []
+    clusters_min_size = {}
+
+    for cluster, points in clusters_separados.items():
+        if len(points) >= 5:
+            clusters_min_size[cluster] = np.array(points)
+
+    for cluster, points in clusters_min_size.items():
+        # Encuentra las coordenadas mínimas y máximas para crear el bounding box con un margen
+        x_min = round(min(points[:, 0]-margen))
+        if(x_min < 0):
+            x_min = 0
+        y_min = round(min(points[:, 1]-margen/4))
+        if(y_min < 0):
+            y_min = 0
+        x_max = round(max(points[:, 0]+margen))
+        if(x_max > img.shape[1]):
+            x_max = img.shape[1]
+        y_max = round(max(points[:, 1]+margen/4))
+        if(y_max > img.shape[0]):
+            y_max = img.shape[0]
+
+        point_color = (0, 0, 255)  # Red color in BGR
     
-    # Encuentra los puntos que pertenecen al clúster más grande
-    for index in range(len(etiquetas)):
-        if(etiquetas[index] == indice_cluster_mayor):
-            puntos_cluster_mayor.append(list_kp1[index])
-
-    # Convierte los puntos a un formato NumPy array
-    puntos_array = np.array(puntos_cluster_mayor)
+        # Define the point radius
+        point_radius = 2
     
-    # Encuentra las coordenadas mínimas y máximas para crear el bounding box con un margen
-    x_min = round(min(puntos_array[:, 0]-margen))
-    if(x_min < 0):
-        x_min = 0
-    y_min = round(min(puntos_array[:, 1]-margen/4))
-    if(y_min < 0):
-        y_min = 0
-    x_max = round(max(puntos_array[:, 0]+margen))
-    if(x_max > img.shape[1]):
-        x_max = img.shape[1]
-    y_max = round(max(puntos_array[:, 1]+margen/4))
-    if(y_max > img.shape[0]):
-        y_max = img.shape[0]
-
-    point_color = (0, 0, 255)  # Red color in BGR
-
-    # Define the point radius
-    point_radius = 2
-
-    # Loop through the points and draw them on the image
-    # for point in puntos_array:
-    #     coordinates = (int(point[0]), int(point[1]))
-    #     cv2.circle(query_img, coordinates, point_radius,
-    #                 point_color, -1)  # -1 fills the circle
-
-
-    # Recorta la imagen usando las coordenadas del bounding box
-    img_cropped = img[y_min:y_max, x_min:x_max]
-    img_cropped.shape[0]
-    img_cropped.shape[1]
+        # Loop through the points and draw them on the image
+        # for point in puntos_array:
+        #     coordinates = (int(point[0]), int(point[1]))
+        #     cv2.circle(query_img, coordinates, point_radius,
+        #                 point_color, -1)  # -1 fills the circle
+    
+    
+        # Recorta la imagen usando las coordenadas del bounding box
+        img_cropped = img[y_min:y_max, x_min:x_max]
+        img_cropped.shape[0]
+        img_cropped.shape[1]
+    
+        # Mostrar la imagen recortada
+        cv2.imshow('Cropped Image', img_cropped)
+    
+        # Esperar a que el usuario presione una tecla y luego cerrar todas las ventanas
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
     return img_cropped
-
-# def Deteccion_OCR():
 
 
 if __name__ == "__main__":
 
-    img = cv2.imread('../data/Cars101.png')
+    img = cv2.imread('../data/Cars105.png')
     # Añadir más placas de ejemplo y determinar el cluster que más coincida
     train = cv2.imread('../data/matricula2.png')
     col,fil,deep=img.shape
@@ -150,7 +152,7 @@ if __name__ == "__main__":
     # Redimensiona la imagen
     #img = cv2.resize(img, nuevo_tamano)
 
-    img_cropped = Identificacion(img, train,features=100,thresh=20,margen=70)
+    img_cropped = Identificacion(img, train,features=50,thresh=20,margen=70)
     # Show the final image
     # cv2.cvtColor(img, cv2.COLOR_RGB2LAB)
     # B, G, R = cv2.split(img)
