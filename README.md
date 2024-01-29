@@ -8,11 +8,11 @@ Several methods were explored and developed to achieve the goal. The success of 
 
 On the other hand, the OBR and CNN (Yolov8 trained with a custom dataset) methods achieve a good ratio, above 80% and 95% respectively in detecting the plate in the image and cropping its area correctly.
 ## Process
-![alt text](https://github.com/Drq13112/Artificial_Vision_Master/main/OBR1.png?raw=true)
-![alt text](https://github.com/Drq13112/Artificial_Vision_Master/main/OBR2.png?raw=true)
-![alt text](https://github.com/Drq13112/Artificial_Vision_Master/main/OBR3.png?raw=true)
-![alt text](https://github.com/Drq13112/Artificial_Vision_Master/main/OBR4.png?raw=true)
-![alt text](https://github.com/Drq13112/Artificial_Vision_Master/main/OBR6.png?raw=true)
+![First step](OBR1.png)
+![First step](OBR2.png)
+![First step](OBR3.png)
+![First step](OBR4.png)
+![First step](OBR6.png)
 
 Results of the CNN
 ![alt text](https://github.com/Drq13112/Artificial_Vision_Master/main/red.png?raw=true)
