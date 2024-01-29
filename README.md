@@ -32,6 +32,6 @@ Results of the CNN
 http://upmetsii.125mb.com/
 ## Authors
 
-- [@octokatherine](https://github.com/Drq13112)
-- [@octokatherine](https://github.com/lilpati)
+- [@David](https://github.com/Drq13112)
+- [@Paty](https://github.com/lilpati)
 
