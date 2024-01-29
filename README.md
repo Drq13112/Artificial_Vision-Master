@@ -8,6 +8,8 @@ Several methods were explored and developed to achieve the goal. The success of 
 
 On the other hand, the OBR and CNN (Yolov8 trained with a custom dataset) methods achieve a good ratio, above 80% and 95% respectively in detecting the plate in the image and cropping its area correctly.
 ## Process
+Main algorithm
+
 ![First step](OBR1.png)
 
 ![Second step](OBR2.png)
